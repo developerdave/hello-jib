@@ -1,0 +1,46 @@
+= Jib Example
+:toc:
+
+== Starting a project
+1. To create the directory structure run `mkdir -p src/main/java/hello`
+2. Create a `build.gradle` file with the following contents: -
+
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+        }
+    }
+
+    plugins {
+        id 'com.google.cloud.tools.jib' version '0.9.0'
+    }
+    jib.to.image = 'gcr.io/hello-jib/image-built-with-jib'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    bootJar {
+        baseName = 'gs-spring-boot'
+        version =  '0.1.0'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-web")
+        testCompile("junit:junit")
+    }
+
+== Jib
+https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#quickstart[Jib] is used to simplify for the
+creation of Docker images in Java.    
